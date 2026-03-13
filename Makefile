@@ -9,8 +9,8 @@ DEP_FLAGS = -MT $@ -MMD -MP -MF $(DEP_DIR)/$*.d
 EXE = calculator
 
 SRC_DIR = .
-SRC = $(shell find $(SRC_DIR) -regex ".*\.cpp" -not -regex ".*\.test\.cpp")
-SRC_TEST = $(shell find $(SRC_DIR) -regex ".*\.cpp" -not -regex ".*\main\.cpp")
+SRC = $(shell find $(SRC_DIR) -regex ".*\.cpp" -not -regex ".*\.test\.cpp" -not -regex ".*ai_.*\.cpp")
+SRC_TEST = $(shell find $(SRC_DIR) -regex ".*\.cpp" -not -regex ".*\main\.cpp" -not -regex ".*ai_.*\.cpp")
 
 OBJ_DIR = .obj
 OBJ = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC))
