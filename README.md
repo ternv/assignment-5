@@ -1,5 +1,6 @@
 # ENGR 103: Calculator
 
+**I have included my project design PDF in this repository**
 
 ## Getting Started
 
