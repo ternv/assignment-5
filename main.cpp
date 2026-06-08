@@ -1,5 +1,5 @@
 /*
- * Author: TODO ENTER YOUR NAME HERE
+ * Author: Vladislav Ternovskiy
  * Description: TODO BRIEF DESCRIPTION OF ASSIGNMENT HERE
  */
 
@@ -59,10 +59,23 @@ void print_history_header() {
 	std::cout << "History of computed values:" << std::endl;
 }
 
+/**
+ * Function: print_history
+ * Description: Prints each entry of the history array to the console (up to "count").
+ */
+void print_history(double history[], int count) {
+	for (int i = 0; i < count; i++) {
+		std::cout << history[i] << std::endl;
+	}
+}
+
 int main() {
 	// TODO Create array to represent history of at most 100 computed values
 	// (and a separate variable to keep track of the number of elements that
 	// have been added to it so far)
+
+	double history[100];
+	int history_size = 0;
 
 	std::string go_again;
 	do {
@@ -81,11 +94,14 @@ int main() {
 			// TODO Append value to array containing history of computed values
 			// and increment the array's corresponding size variable
 
+			if (history_size < 100) {
+				history[history_size] = value;
+				history_size++;
+			}
 
 			go_again = prompt_for_retry();
 		} else {
-			std::cout << "That isn't a valid arithmetic expression." <<
-				std::endl;
+			print_error();
 			go_again = "Y";
 		}
 	} while(go_again == "Y");
@@ -97,4 +113,8 @@ int main() {
 	// TODO Print history of computed values (you should do this by calling
 	// another function here, which you'll need to define above this main()
 	// function)
+
+	print_history(history, history_size);
+
+	return 0;
 }
