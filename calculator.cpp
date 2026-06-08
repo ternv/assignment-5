@@ -93,7 +93,6 @@ bool is_valid_expression(std::string expression) {
 	// TODO Remove the below return statement. It's a placeholder just to get
 	// the starter code to compile without warnings and run without undefined
 	// behavior.
-	return false;
 
 	if (expression.empty()) return false;
 
@@ -104,8 +103,32 @@ bool is_valid_expression(std::string expression) {
 		}
 	}
 
+	// convert expression into string stream
+	std::stringstream ss(expression);
+	std::string str;
+
+	bool expect_number = true;
+
+	while (ss >> str) {
+		if (expect_number) {
+			if (!is_number(str)) {
+				return false;
+			}
+		} else {
+			if (!is_operator(str)) {
+				return false;
+			}
+		}
+		expect_number = !expect_number;
+	}
+
+	return !expect_number;
 }
 
+/**
+ * Function: apply_operator
+ * Description: Calculates the result of left and right using one of the supported
+ */
 double apply_operator(double left, double right, char op) {
 	if (op == '+') {
 		return left + right;
@@ -154,5 +177,46 @@ double compute_value(std::string expression) {
 	// TODO Remove the below return statement. It's a placeholder just to get
 	// the starter code to compile without warnings and run without undefined
 	// behavior.
-	return 0;
+
+	// convert expression into string stream
+	std::stringstream ss(expression);
+
+	std::vector<double> numbers;
+	std::vector<char> operators;
+
+	std::string str;
+
+	ss >> str;
+	numbers.push_back(std::stod(str));
+
+	while (ss >> str) {		
+
+		char op = str[0];
+		operators.push_back(op);
+
+		ss >> str;
+		numbers.push_back(std::stod(str));
+	}
+
+	// order of operations
+	for (int i = 0; i < operators.size(); ) {
+		if (operators[i] == '*' || operators[i] == '/') {
+			double result = apply_operator(numbers[i], numbers[i + 1], operators[i]);
+
+			numbers[i] = result;
+
+			numbers.erase(numbers.begin() + i + 1);
+			operators.erase(operators.begin() + i);
+		} else {
+			i++;
+		}
+	}
+
+	double result = numbers[0];
+
+	for (int i = 0; i < operators.size(); i++) {
+		result = apply_operator(result, numbers[i + 1], operators[i]);
+	}
+
+	return result;
 }
