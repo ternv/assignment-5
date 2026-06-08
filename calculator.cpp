@@ -1,4 +1,7 @@
 #include <iostream>
+#include <sstream>
+#include <vector>
+#include <cmath>
 
 /*
  * THIS IS A HELPER FUNCTION. YOU AREN'T REQUIRED TO USE IT, AND YOU CAN
@@ -52,6 +55,18 @@ bool is_number(std::string str) {
 
 // TODO Write other functions as you see fit.
 
+/**
+ * Function: is_operator
+ * Description: Determines whether a given string holds a valid operator.
+ * Returns: True if the given string holds an operator, or false otherwise.
+ */
+bool is_operator(std::string str) {
+	return str == "+" ||
+		   str == "-" ||
+		   str == "*" ||
+		   str == "/" ||
+		   str == "^";
+}
 
 /*
  * THIS IS A REQUIRED FUNCTION. YOU MAY NOT ALTER ITS HEADER (NAME, PARAMETERS,
@@ -79,8 +94,39 @@ bool is_valid_expression(std::string expression) {
 	// the starter code to compile without warnings and run without undefined
 	// behavior.
 	return false;
+
+	if (expression.empty()) return false;
+
+	// reject double spaces
+	for (int i = 0; i < expression.length() - 1; i++) {
+		if (expression[i] == ' ' && expression[i + 1] == ' ') {
+			return false;
+		}
+	}
+
 }
 
+double apply_operator(double left, double right, char op) {
+	if (op == '+') {
+		return left + right;
+	}
+	if (op == '-') {
+		return left - right;
+	}
+	if (op == '*') {
+		return left * right;
+	}
+	if (op == '/') {
+		if (right == 0) {
+			return 0;
+		}
+		return left / right;
+	}
+	if (op == '^') {
+		return std::pow(left, right);
+	}
+	return 0;
+}
 
 /*
  * THIS IS A REQUIRED FUNCTION. YOU MAY NOT ALTER ITS HEADER (NAME, PARAMETERS,
